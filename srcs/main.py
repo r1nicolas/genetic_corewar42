@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from corewar import Champion
+from corewar.Champion import Champion
 
 if __name__ == '__main__':
 
