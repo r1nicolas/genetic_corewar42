@@ -2,13 +2,6 @@ import random
 
 
 # genetic settings
-RATIOS = {
-    'add': 1,
-    'delete': 1,
-    'modify': 1,
-    'pass': 1
-}
-TOTAL_RATIO = sum(RATIOS.values())
 
 # corewar rules
 MEM_SIZE = 4096
@@ -50,6 +43,17 @@ class Champion:
         self.data = []
         self.name = name
         self.comment = comment
+        self.generate_f = {
+            REG: self.generate_register,
+            DIR: self.generate_direct,
+            IND: self.generate_indirect,
+            }
+        self.ratios = {
+            'add': 1,
+            'remove': 1,
+            'mutate': 1,
+            'pass': 1,
+            }
 
     @staticmethod
     def generate_register():
@@ -73,14 +77,7 @@ class Champion:
 
     def generate_by_param(self, param):
 
-        if param == REG:
-            return self.generate_register()
-        if param == DIR:
-            return self.generate_direct()
-        if param == IND:
-            return self.generate_indirect()
-
-        raise ValueError('param should be either REG, DIR or IND')
+        return self.generate_f[param]()
 
     def generate_instruction(self):
 
@@ -95,41 +92,37 @@ class Champion:
 
         return instruction
 
-    def mutate_instruction(self, instruction):
+    def mutate_instruction(self, index = 0):
 
         pass
 
-    def remove_instruction(self):
+    def remove_instruction(self, index = 0):
+
+        if index == len(self.data):
+            index = index - 1
+        del self.data[index]
+
+    def add_instruction(self, index = 0):
+
+        self.data.insert(index, self.generate_instruction())
+
+    def pass_instruction(self, index = 0):
 
         pass
-
-    def add_instruction(self, append = True):
-
-        if append == True:
-            self.data.update(self.generate_instruction())
-        else:
-            r = random.randint(0, 1) ##
 
     def mutate(self):
 
-        r = random.randint(1, TOTAL_RATIO)
-        if r < RATIOS['add']:
-            self.add_instruction(False)
-            return
-        else:
-            r = r - RATIOS['add']
-        if r < RATIOS['delete']:
-            self.delete_instruction()
-            return
-        else:
-            r = r - RATIOS['delete']
-        if r < RATIOS['modify']:
-            self.modify_instruction()
+        r = random.randint(1, sum(self.ratios.values()))
+        for i in self.ratios:
+            if r < self.ratios[i]:
+                m = getattr(self, '{0}_instruction'.format(i))
+                m(random.randint(0, len(self.data)))
+            r -= self.ratios[i]
 
     def generate(self, nb):
 
         for i in range(nb):
-            self.data.append(self.generate_instruction()) # use add_instruction , add index
+            self.add_instruction(i)
 
     def __str__(self):
 
