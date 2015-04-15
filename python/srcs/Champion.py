@@ -105,7 +105,6 @@ class Champion:
                 s += str(self.data[i][j][1])
                 if j != len(self.data[i]) - 1:
                     s += ', '
-
             s += '\n'
 
         return s
