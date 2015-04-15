@@ -117,6 +117,7 @@ class Champion:
             if r < self.ratios[i]:
                 m = getattr(self, '{0}_instruction'.format(i))
                 m(random.randint(0, len(self.data)))
+                return
             r -= self.ratios[i]
 
     def generate(self, nb):
