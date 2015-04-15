@@ -17,21 +17,22 @@ DIR = 1
 IND = 2
 
 INSTRUCTIONS = {'live': [[DIR]],
- 'ld': [[DIR, IND], [REG]],
- 'st': [[REG], [REG, IND]],
- 'add': [[REG], [REG], [REG]],
- 'sub': [[REG], [REG], [REG]],
- 'and': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
- 'or': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
- 'xor': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
- 'zjmp': [[DIR]],
- 'ldi': [[REG, DIR, IND], [REG, DIR], [REG]],
- 'sti': [[REG], [REG, DIR, IND], [REG, DIR]],
- 'fork': [[DIR]],
- 'lld': [[DIR, IND], [REG]],
- 'lldi': [[REG, DIR, IND], [REG, DIR], [REG]],
- 'lfork': [[DIR]],
- 'aff': [[REG]]}
+                'ld': [[DIR, IND], [REG]],
+                'st': [[REG], [REG, IND]],
+                'add': [[REG], [REG], [REG]],
+                'sub': [[REG], [REG], [REG]],
+                'and': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
+                'or': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
+                'xor': [[REG, DIR, IND], [REG, DIR, IND], [REG]],
+                'zjmp': [[DIR]],
+                'ldi': [[REG, DIR, IND], [REG, DIR], [REG]],
+                'sti': [[REG], [REG, DIR, IND], [REG, DIR]],
+                'fork': [[DIR]],
+                'lld': [[DIR, IND], [REG]],
+                'lldi': [[REG, DIR, IND], [REG, DIR], [REG]],
+                'lfork': [[DIR]],
+                'aff': [[REG]]
+                }
 
 INSTRUCTIONS_LIST = INSTRUCTIONS.keys()
 
@@ -91,15 +92,20 @@ class Champion:
             instruction[1].append(res)
 
         return instruction
-
+ 
     def mutate_instruction(self, index = 0):
 
-        pass
+        if index == len(self.data):
+            index = index - 1
+
+        r = random.randint(0, len(self.data[index][1]) - 1)
+        self.data[index][1][r][1] = self.generate_by_param(self.data[index][1][r][0])[1]
 
     def remove_instruction(self, index = 0):
 
         if index == len(self.data):
             index = index - 1
+
         del self.data[index]
 
     def add_instruction(self, index = 0):
@@ -114,7 +120,7 @@ class Champion:
 
         r = random.randint(1, sum(self.ratios.values()))
         for i in self.ratios:
-            if r < self.ratios[i]:
+            if r <= self.ratios[i]:
                 m = getattr(self, '{0}_instruction'.format(i))
                 m(random.randint(0, len(self.data)))
                 return
