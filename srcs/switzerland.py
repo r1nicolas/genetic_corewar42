@@ -1,7 +1,8 @@
 import math
 import random
 
-# self.elements = [ [champion, score, previous oponents], ...]
+# self.elements = [ [champion, score, previous oponents, sides value], ...]
+# side values +1 first, -1 second
 
 class Tournament(object):
 
@@ -17,9 +18,10 @@ class Tournament(object):
 
         i = 0
         while i < len(elements):
-            elements[i] = [i, 0, []]
+            elements[i] = [i, 0, [], 0]
             i += 1
 
+        # ca ne devrait pas arriver dans la mesure ou on utilisera des puissances de deux genre 32, 64 ou 128.
         if len(elements) % 2:
             elements[i][1] = 1
 
