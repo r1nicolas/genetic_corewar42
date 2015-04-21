@@ -13,7 +13,7 @@ def fight(corewar, champions):
     p = subprocess.Popen(champions, stdout = subprocess.PIPE)
     output, err = p.communicate()
     status = p.wait()
-    if status:
-        raise 'CorewarFail', champions
+    if status == 44 or 43:
+        return status - 42
 
-    return int(output.split(' ')[1]) - 1
+    raise Exception, 'CorewarFail'

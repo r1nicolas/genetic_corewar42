@@ -1,4 +1,6 @@
 # genetic settings
+CHAMPIONS_NB = 2 ** 5
+DEFAULT_SIZE = 4
 
 # corewar rules
 MEM_SIZE = 4096
@@ -32,3 +34,8 @@ INSTRUCTIONS = {'live': [[DIR]],
                 }
 
 INSTRUCTIONS_LIST = INSTRUCTIONS.keys()
+
+# misc
+WORKING_DIR = '/nfs/zfs-student-5/users/2013/aguilbau/documents/corewar/genetic_corewar42/run/'
+COREWAR_PATH = '/nfs/zfs-student-5/users/2013/aguilbau/documents/corewar/corewar'
+ASM_PATH = '/nfs/zfs-student-5/users/2013/aguilbau/documents/corewar/asm'

@@ -14,10 +14,10 @@ class Champion:
             IND: self.generate_indirect,
             }
         self.ratios = {
-            'add': 1,
-            'remove': 1,
-            'mutate': 1,
-            'pass': 1,
+            'add': 3,
+            'remove': 3,
+            'mutate': 5,
+            'pass': 2,
             }
 
     @staticmethod
@@ -66,6 +66,9 @@ class Champion:
         self.data[index][1][r][1] = self.generate_by_param(self.data[index][1][r][0])[1]
 
     def remove_instruction(self, index = 0):
+
+        if len(self.data) == 1:
+            return
 
         if index == len(self.data):
             index = index - 1
